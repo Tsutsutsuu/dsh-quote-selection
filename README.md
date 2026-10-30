@@ -101,18 +101,34 @@
 这些都是纯显示偏好：存在浏览器本地（`localStorage`，key `dsh-quote-selection/settings-v1`），改完立即生效、
 不用重启；换机器或清浏览器缓存会回到默认值。它们不进入会话日志、不影响模型看到的内容。
 
+## 兼容性
+
+| 依赖 | 验证版本 | 说明 |
+| --- | --- | --- |
+| DSH（桌面版 / `dsh` CLI 的 Web 界面） | 当前桌面版 | 标准聊天视图的引用路径，插件的三处注册都依赖它现有的槽位与 `data-chat-*` 标记 |
+| `dsh-better-display`（阅读视图） | [`github:aa2246740/dsh-better-display#v0.3.6`](https://github.com/aa2246740/dsh-better-display/tree/v0.3.6) | **机会性兼容**：识别它的 `data-reader-*` 锚点来推断角色与轮次；不安装也不影响聊天视图 |
+
+阅读视图的兼容是**针对上面这个具体版本验证**的，不是稳定的公共契约：该插件更新后若改动 `data-reader-*`
+标记或 `dsh-better-display.block` 链，本插件不会报错，只会按「已知限制」里的方式退化（最差退成角色泛称
+「消息」、位置信息变泛），**引用与发送本身仍然可用**。profile 里固定版本可以这样写：
+
+```json
+"dsh-better-display": "github:aa2246740/dsh-better-display#v0.3.6"
+```
+
 ## 已知限制
 
-- 标准**聊天视图**用 `[data-chat-flow-key]` 定位消息行；`dsh-better-display` 的「阅读」视图走**机会性兼容**：
+- 标准**聊天视图**用 `[data-chat-flow-key]` 定位消息行；[dsh-better-display](https://github.com/aa2246740/dsh-better-display)
+  （`github:aa2246740/dsh-better-display#v0.3.6`）的「阅读」视图走**机会性兼容**：
   识别它的 `[data-reader-anchor]` / `[data-reader-turn]`（以及官方节点上的 `data-chat-flow-kind`），
   可以正常引用，位置信息尽量给到角色与轮次；最差退化为「消息」+ 无轮次。
   连行标记都找不到时退回 transcript 滚动容器，**引用本身仍然可用**，只是位置信息变泛。
 - 阅读视图的角色推断依赖它自己的 DOM 约定（`data-reader-answer` / `data-reader-reasoning-card` /
   `data-reader-tool-call`，以及"本轮第一个锚点是用户消息"）。该插件未来改标记时，
   这里最坏情况是角色退化成「消息」，不影响引用与发送。
-- **阅读视图里的折叠显示**走它的 `dsh-better-display.block` 链：含引用块的用户消息会被本插件按块内切分
-  重新渲染 —— 引用块变成折叠卡，同一段里你手打的文字按纯文本显示（这条消息因此失去阅读视图的 markdown
-  排版）；不含引用的消息不受影响，仍由阅读视图自己渲染。
+- **阅读视图里的折叠显示**走它的 `dsh-better-display.block` 链（同上的 v0.3.6 验证）：
+  含引用块的用户消息会被本插件按块内切分重新渲染 —— 引用块变成折叠卡，同一段里你手打的文字按纯文本显示
+  （这条消息因此失去阅读视图的 markdown 排版）；不含引用的消息不受影响，仍由阅读视图自己渲染。
 - 草稿 chip 的悬停提示只有位置摘要，不是全文（宿主 chip 的 title 就是 label）——发送前后都可展开消息查看原文。
 - 输入框处于提交中/不可编辑状态时插入 chip 会失败，此时退化为「复制到剪贴板」并提示。
 - 队列中的待发消息预览也走同一套折叠渲染，长引用在窄预览里可能被省略号截断。
