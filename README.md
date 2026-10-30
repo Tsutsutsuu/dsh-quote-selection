@@ -159,7 +159,7 @@ npm test      # node --test tests/quote-helpers.test.mjs
 npm run audit # 检查未使用的常量 / CSS 类 / 文案 key，以及中英文案对齐
 ```
 
-CI：每次 push / PR 会在 Node 20 与 22 上跑单测（`.github/workflows/test.yml`）。
+CI：每次 push / PR 会在 Node 20 / 22 / 24 上跑单测与引用审计（`.github/workflows/test.yml`）。
 
 ## 许可证
 
