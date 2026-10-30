@@ -1,0 +1,6 @@
+# Keep the repository LF-only; Windows checkouts stay uniform too.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

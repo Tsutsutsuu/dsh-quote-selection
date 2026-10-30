@@ -1,0 +1,60 @@
+{
+  "name": "dsh-quote-selection",
+  "version": "0.1.0",
+  "description": "Quote selected conversation text from the chat transcript with its source location.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Tsutsutsuu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tsutsutsuu/dsh-quote-selection.git"
+  },
+  "homepage": "https://github.com/Tsutsutsuu/dsh-quote-selection#readme",
+  "bugs": {
+    "url": "https://github.com/Tsutsutsuu/dsh-quote-selection/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "quote",
+    "selection",
+    "chat"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/quote-helpers.test.mjs",
+    "audit": "node tools/audit-references.mjs"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "TESTING.md",
+    "tests/*.mjs",
+    "tools/*.mjs"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

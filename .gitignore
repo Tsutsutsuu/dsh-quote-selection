@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Packed plugin bundles
+*.tgz
+
+# Local scratch: extracted app.asar trees, test logs, screenshots
+extract/
+*.log
+*.tsbuildinfo
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
